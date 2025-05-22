@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from src.routes import auth
 
 app = FastAPI(
     title="Lu Estilo API",
     description="API para gerenciamento de vendas da Lu Estilo",
     version="0.1.0"
- )
+)
 
 # Configuração de CORS para permitir acesso do frontend
 app.add_middleware(
@@ -15,6 +16,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth.router)
+
 
 @app.get("/")
 async def root():
