@@ -1,18 +1,23 @@
+import os
 from datetime import datetime, timedelta
 from typing import Optional
-from json import jwt
-from passlib.context import CryptContext
+
+import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-
+from dotenv import load_dotenv
 from src.config.database import get_db
 from src.models.user import User
 
+# Carrega as variáveis de ambiente do arquivo .env
+load_dotenv()
+
 # Configurações de segurança
-SECRET_KEY = "sua_chave_secreta_aqui"  # Em produção, use variáveis de ambiente
+SECRET_KEY = os.environ.get("SECRET_KEY")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
 # Contexto para hash de senhas
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
