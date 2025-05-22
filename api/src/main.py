@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.routes import auth, client
+from src.routes import auth, client, product
 
 app = FastAPI(
     title="Lu Estilo API",
@@ -19,6 +19,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(client.router)
+app.include_router(product.router)
 
 
 @app.get("/")
