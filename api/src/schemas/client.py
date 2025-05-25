@@ -1,6 +1,7 @@
-from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List
 from datetime import datetime
+from typing import List, Optional
+
+from pydantic import BaseModel, EmailStr, Field
 
 
 class ClientBase(BaseModel):
@@ -29,6 +30,7 @@ class ClientResponse(ClientBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class ClientList(BaseModel):

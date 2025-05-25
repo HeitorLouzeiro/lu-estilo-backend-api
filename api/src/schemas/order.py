@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List
 from datetime import datetime
+from typing import List, Optional
+
+from pydantic import BaseModel, Field
 
 from src.models.order import OrderStatus
 from src.schemas.client import ClientResponse
@@ -20,6 +21,7 @@ class OrderItemResponse(OrderItemBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class OrderBase(BaseModel):
@@ -45,6 +47,7 @@ class OrderResponse(OrderBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class OrderList(BaseModel):

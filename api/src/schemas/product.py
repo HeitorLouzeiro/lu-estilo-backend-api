@@ -1,6 +1,7 @@
+from datetime import date, datetime
+from typing import Any, List, Optional
+
 from pydantic import BaseModel, Field
-from typing import Optional, List, Any
-from datetime import datetime, date
 
 
 class ProductBase(BaseModel):
@@ -34,6 +35,7 @@ class ProductResponse(ProductBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class ProductList(BaseModel):

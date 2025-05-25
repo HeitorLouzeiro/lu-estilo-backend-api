@@ -1,5 +1,7 @@
-from pydantic import BaseModel, EmailStr
 from typing import Optional
+
+from pydantic import BaseModel, EmailStr
+
 from src.models.user import UserRole
 
 
@@ -29,6 +31,7 @@ class UserResponse(UserBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class UserLogin(BaseModel):

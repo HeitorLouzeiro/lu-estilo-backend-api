@@ -1,11 +1,12 @@
-from sqlalchemy.orm import Session
-from fastapi import HTTPException, status
-from typing import List, Optional
 from datetime import datetime
+from typing import List, Optional
 
-from src.models.order import Order, OrderStatus, order_products
-from src.models.product import Product
+from fastapi import HTTPException, status
+from sqlalchemy.orm import Session
+
 from src.models.client import Client
+from src.models.order import Order, OrderItem, OrderStatus, order_products
+from src.models.product import Product
 from src.schemas.order import OrderCreate, OrderUpdate
 
 
@@ -107,21 +108,20 @@ def create_order(db: Session, order: OrderCreate) -> Order:
         total_amount=total_amount
     )
     db.add(db_order)
-    db.flush()  # Para obter o ID do pedido
-
+    db.flush()  # Para obter o ID do pedido antes de commit
     # Adicionar os itens do pedido
     for item in order_items:
-        db.execute(
-            order_products.insert().values(
-                order_id=db_order.id,
-                product_id=item["product_id"],
-                quantity=item["quantity"],
-                unit_price=item["unit_price"]
-            )
+        order_item = OrderItem(
+            order_id=db_order.id,
+            product_id=item["product_id"],
+            quantity=item["quantity"],
+            unit_price=item["unit_price"]
         )
+        db.add(order_item)
 
     db.commit()
-    db.refresh(db_order)
+    db.refresh(db_order)  # Refresh para atualizar o objeto com os dados atuais
+
     return db_order
 
 
