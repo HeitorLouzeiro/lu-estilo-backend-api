@@ -1,0 +1,54 @@
+services:
+  # Banco de dados PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: lu_estilo_db
+    environment:
+      POSTGRES_DB: lu_estilo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - lu_estilo_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # API FastAPI
+  api:
+    build: .
+    container_name: lu_estilo_api
+    env_file:
+      - .env
+      - .env.docker
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    networks:
+      - lu_estilo_network
+    command: >
+      sh -c "
+        echo 'Aguardando banco de dados...' &&
+        sleep 10 &&
+        echo 'Executando migrações...' &&
+        alembic upgrade head &&
+        echo 'Iniciando aplicação...' &&
+        uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+volumes:
+  postgres_data:
+
+networks:
+  lu_estilo_network:
+    driver: bridge

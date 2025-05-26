@@ -1,14 +1,19 @@
-from src.models import Base  # Será criado posteriormente
+from src.models import Base
+import sys
+import os
+from os.path import dirname, abspath
 from logging.config import fileConfig
+from dotenv import load_dotenv
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
 
+# Carrega as variáveis de ambiente
+load_dotenv()
 
-import sys
-from os.path import dirname, abspath
+# Adiciona o diretório raiz ao sys.path
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
 
 
@@ -45,7 +50,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = os.environ.get("DATABASE_URL", config.get_main_option("sqlalchemy.url"))
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -64,6 +69,11 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    # Configurar a URL do banco via variável de ambiente
+    database_url = os.environ.get("DATABASE_URL")
+    if database_url:
+        config.set_main_option("sqlalchemy.url", database_url)
+
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
