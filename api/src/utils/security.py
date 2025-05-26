@@ -3,11 +3,12 @@ from datetime import datetime, timedelta
 from typing import Optional
 
 import jwt
+from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-from dotenv import load_dotenv
+
 from src.config.database import get_db
 from src.models.user import User
 
@@ -17,7 +18,8 @@ load_dotenv()
 # Configurações de segurança
 SECRET_KEY = os.environ.get("SECRET_KEY")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
+ACCESS_TOKEN_EXPIRE_MINUTES = int(
+    os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
 # Contexto para hash de senhas
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -56,7 +58,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-    except jwt.JWTError:
+    except jwt.exceptions.PyJWTError:
         raise credentials_exception
 
     user = db.query(User).filter(User.username == username).first()
