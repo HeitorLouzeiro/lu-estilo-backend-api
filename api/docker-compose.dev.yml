@@ -1,0 +1,63 @@
+services:
+  # Banco de dados PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: lu_estilo_db_dev
+    environment:
+      POSTGRES_DB: lu_estilo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    networks:
+      - lu_estilo_network_dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # API FastAPI - Versão de desenvolvimento
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: lu_estilo_api_dev
+    environment:
+      DATABASE_URL: postgresql://postgres:admin@db:5432/lu_estilo
+      SECRET_KEY: ${SECRET_KEY}
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      ALGORITHM: HS256
+      PYTHONPATH: /app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+      - ./migrations:/app/migrations
+      - ./alembic.ini:/app/alembic.ini
+      - ./.env:/app/.env
+    networks:
+      - lu_estilo_network_dev
+    command: >
+      sh -c "
+        echo 'Aguardando banco de dados...' &&
+        sleep 10 &&
+        echo 'Executando migrações...' &&
+        alembic upgrade head &&
+        echo 'Iniciando aplicação em modo desenvolvimento...' &&
+        uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+    stdin_open: true
+    tty: true
+
+volumes:
+  postgres_data_dev:
+
+networks:
+  lu_estilo_network_dev:
+    driver: bridge
