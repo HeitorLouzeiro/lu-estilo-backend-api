@@ -126,7 +126,7 @@ src/
 
 ### 1. Clone o repositório
 ```bash
-git clone <url-do-repositorio>
+git https://github.com/HeitorLouzeiro/lu-estilo-backend-api.git
 cd lu-estilo-backend-api/api
 ```
 
@@ -462,10 +462,6 @@ O projeto está pronto para deploy em:
 - **Commits**: Usar conventional commits
 - **Testes**: Manter cobertura > 80%
 - **Documentação**: Atualizar README e docstrings
-
-## 📝 Licença
-
-Este projeto é propriedade da **Lu Estilo** e destina-se a fins de avaliação técnica.
 
 ## 📞 Contato
 
