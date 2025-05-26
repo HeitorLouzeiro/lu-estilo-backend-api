@@ -45,8 +45,8 @@ def test_register_success(client):
         "username": username,
         "email": fake.email(),
         "password": "newpassword",
-        "role": "user",  # Enum em minúsculo conforme exigido pela API
-        "full_name": fake.name()  # Adicionando campo que pode ser necessário
+        "role": "user",
+        "full_name": fake.name()
     }
     response = client.post("/auth/register", json=user_data)
     print(f"Resposta: {response.status_code}")

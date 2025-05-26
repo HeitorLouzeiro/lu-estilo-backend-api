@@ -51,7 +51,7 @@ def test_create_client_duplicate_email(client, test_client, admin_headers):
     """Testa criação de cliente com email já existente."""
     client_data = {
         "name": "Cliente Duplicado",
-        "email": test_client.email,  # Usamos o email do cliente já criado
+        "email": test_client.email,
         "cpf": "45678912300",
         "phone": "11912345678",
         "address": "Av. Duplicada, 789"
@@ -66,7 +66,7 @@ def test_create_client_duplicate_cpf(client, test_client, admin_headers):
     client_data = {
         "name": "Cliente Duplicado",
         "email": "outro@teste.com",
-        "cpf": test_client.cpf,  # Usamos o CPF do cliente já criado
+        "cpf": test_client.cpf,
         "phone": "11912345678",
         "address": "Av. Duplicada, 789"
     }
@@ -133,7 +133,7 @@ def test_delete_client_not_found(client, admin_headers):
 def test_filter_clients_by_name(client, test_client, admin_headers):
     """Testa filtragem de clientes por nome."""
     # Usar parte do nome real do cliente de teste para garantir uma correspondência
-    name_part = test_client.name.split()[0]  # Pegar apenas o primeiro nome
+    name_part = test_client.name.split()[0]
     response = client.get(
         f"/clients?name={name_part}",
         headers=admin_headers
