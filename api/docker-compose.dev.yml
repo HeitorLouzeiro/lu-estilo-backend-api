@@ -27,7 +27,7 @@ services:
     container_name: lu_estilo_api_dev
     environment:
       DATABASE_URL: postgresql://postgres:admin@db:5432/lu_estilo
-      SECRET_KEY: a1bv3d4e5f6g7h8i9f0_k1lm3n4o5p6
+      SECRET_KEY: ${SECRET_KEY}
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
       ALGORITHM: HS256
       PYTHONPATH: /app
