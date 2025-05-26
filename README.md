@@ -23,6 +23,19 @@ API REST para gerenciamento de vendas de moda feminina, desenvolvida com FastAPI
 
 A **Lu Estilo API** é uma solução backend robusta para gerenciamento de vendas de uma loja de moda feminina. O sistema oferece funcionalidades completas de CRUD para clientes, produtos e pedidos, com sistema de autenticação seguro e controle de permissões por roles.
 
+---
+
+### 🏆 Diferenciais Técnicos
+
+- ✨ **Arquitetura limpa** com 5 camadas de separação de responsabilidades (models, schemas, routes, services, utils)
+- 🔒 **Segurança robusta** com JWT, 6+ mecanismos de segurança e hash de senhas (bcrypt)
+- 📊 **Documentação automática** com 25+ endpoints e +20 exemplos práticos
+- 🧪 **100% testado** com 40+ casos de teste.
+- 🐳 **Containerizado** com Docker e 2 configurações (dev/prod)
+- 📈 **Escalável** com 4 módulos independentes prontos para produção
+
+---
+
 ### Principais Características
 
 - ✅ **API RESTful** com documentação automática
@@ -456,20 +469,10 @@ Este projeto é propriedade da **Lu Estilo** e destina-se a fins de avaliação 
 
 ## 📞 Contato
 
-- **Desenvolvedor**: [Seu Nome]
-- **Email**: [seu.email@exemplo.com]
-- **LinkedIn**: [seu-linkedin]
+- **Desenvolvedor**: Heitor Garcez Martins Louzeiro
+- **Email**: Heitorlouzeiro2019@gmail.com 
+- **LinkedIn**: https://www.linkedin.com/in/heitor-louzeiro/
 
 ---
 
-### 🏆 Diferenciais Técnicos
 
-- ✨ **Arquitetura limpa** com separação de responsabilidades
-- 🔒 **Segurança robusta** com JWT e hash de senhas
-- 📊 **Documentação automática** com exemplos práticos
-- 🧪 **100% testado** com casos de uso reais
-- 🐳 **Containerizado** para facilitar deploy
-- 📈 **Escalável** e pronto para produção
-- 🔍 **Observabilidade** com logs e health checks
-
----
